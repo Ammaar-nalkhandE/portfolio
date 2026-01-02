@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Flipbook Portfolio — Mohammed Ammaar Nalkhande</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#f0ebe2; --bg2:#e7e1d9; --paper:#fffdf8;
+  --accent:#0f4c81; --muted:#6f6f6f; --glass:rgba(255,255,255,0.94);
+  --page-width:560px; --page-height:760px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  background:linear-gradient(180deg,var(--bg1),var(--bg2));
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  padding:22px; color:#111;
+}
+
+/* layout */
+.container{
+  width:100%;
+  max-width:1160px;
+  display:flex;
+  gap:26px;
+  align-items:flex-start;
+  justify-content:center;
+  margin:0 auto;
+}
+
+/* book area */
+.book-wrap{ width: calc(var(--page-width) + 40px); display:flex; justify-content:center; }
+.book{
+  width:var(--page-width);
+  height:var(--page-height);
+  perspective:2400px;
+  position:relative;
+  user-select:none;
+}
+
+/* each page holds two faces */
+.page{
+  position:absolute; left:0; top:0; width:100%; height:100%;
+  transform-origin:left center;
+  transform-style:preserve-3d;
+  transition: transform 900ms cubic-bezier(.22,.61,.36,1), box-shadow 400ms ease;
+  will-change: transform;
+}
+.page .face{
+  position:absolute; inset:0;
+  background:var(--paper);
+  border-radius:12px;
+  padding:34px;
+  box-shadow: 0 30px 70px rgba(14,20,28,0.16);
+  backface-visibility:hidden;
+  overflow:auto;
+  -webkit-font-smoothing:antialiased;
+}
+.page .face.back{ transform: rotateY(180deg); background: linear-gradient(180deg,#fff,#faf9f6); color: rgba(0,0,0,0.12); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:20px; }
+
+/* edge visual (thickness) */
+.page .edge{
+  position:absolute; right:-10px; top:10px; bottom:10px; width:10px;
+  border-top-right-radius:10px; border-bottom-right-radius:10px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.02), rgba(0,0,0,0.06));
+  pointer-events:none;
+}
+
+/* flipped state for rotation while preserving translateX stack */
+.page.flipped{ box-shadow: 0 12px 36px rgba(0,0,0,0.22); filter:brightness(0.985); }
+
+/* content styles */
+.title{ font-family:"Playfair Display",serif; font-size:28px; color:var(--accent); margin:0 0 6px; }
+.subtitle{ color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px; }
+.lead{ font-size:15px; line-height:1.7; color:#222; white-space:pre-wrap; margin-bottom:12px; }
+.badge{ display:inline-block; background:#eef6ff; color:var(--accent); padding:6px 10px; border-radius:999px; margin:4px 6px 4px 0; font-size:13px; }
+
+/* small helper */
+.section{ margin-bottom:14px; }
+.kv { color:var(--muted); font-size:13px; margin-top:6px; }
+
+/* skills bars */
+.skill-row{ display:flex; gap:12px; align-items:center; margin:10px 0; }
+.skill-name{ width:36%; font-size:13px; color:#222; }
+.skill-bar{ flex:1; height:8px; background:#eee; border-radius:8px; overflow:hidden; }
+.skill-bar > i{ display:block; height:100%; background:linear-gradient(90deg,var(--accent),#3a7bb1); }
+
+/* controls column */
+.controls{ width:360px; max-width:45vw; display:flex; flex-direction:column; gap:14px; }
+.card{ background:var(--glass); padding:14px; border-radius:12px; box-shadow:0 14px 30px rgba(0,0,0,0.06); }
+.nav{ display:flex; gap:10px; margin-top:10px; }
+.btn{ background:var(--accent); color:#fff; border:0; padding:10px 14px; border-radius:10px; font-weight:700; cursor:pointer; box-shadow:0 8px 20px rgba(15,76,129,0.12); }
+.btn:disabled{ opacity:.5; cursor:not-allowed; box-shadow:none; }
+
+/* toc */
+.toc{ display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+.toc button{ text-align:left; border:0; background:none; padding:8px; cursor:pointer; color:var(--accent); border-radius:6px; }
+.toc button:hover{ background:rgba(15,76,129,0.04); }
+
+/* responsive */
+@media(max-width:980px){
+  .container{ flex-direction:column; align-items:center; gap:18px; padding:12px; }
+  .controls{ width:100%; order:2; }
+  .book-wrap{ width:92%; order:1; }
+  :root{ --page-width:92vw; --page-height:68vh; }
+}
+
+/* remove outlines that looked like borders */
+:focus { outline: none; }
+</style>
+</head>
+<body>
+<div class="container" role="application" aria-label="Flipbook portfolio">
+  <div class="book-wrap">
+    <div class="book" id="book" aria-live="polite" role="document"></div>
+  </div>
+
+  <div class="controls" aria-hidden="false">
+    <div class="card">
+      <div id="metaName" style="font-weight:700;font-size:18px">Loading…</div>
+      <div id="metaTag" class="kv"></div>
+      <div id="metaContact" class="kv"></div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong>Flip</strong>
+        <div id="counter" class="kv">0 / 0</div>
+      </div>
+      <div class="nav">
+        <button class="btn" id="prevBtn" aria-label="Previous page">◀ Prev</button>
+        <button class="btn" id="nextBtn" aria-label="Next page">Next ▶</button>
+      </div>
+      <div style="margin-top:8px;color:var(--muted);font-size:13px">Use arrow keys, swipe, or click contents to jump.</div>
+    </div>
+
+    <div class="card">
+      <strong>Contents</strong>
+      <div class="toc" id="toc"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Robust flipbook renderer that matches your data.json shapes */
+(async function(){
+  // load json
+  let data;
+  try {
+    const res = await fetch('data.json');
+    if(!res.ok) throw new Error('data.json not found');
+    data = await res.json();
+  } catch (e) {
+    document.body.innerHTML = '<div style="padding:40px;color:#900">Error loading data.json — put file next to index.html</div>';
+    console.error(e);
+    return;
+  }
+
+  // meta
+  document.getElementById('metaName').textContent = data.meta?.name || '';
+  document.getElementById('metaTag').textContent = data.meta?.tagline || '';
+  document.getElementById('metaContact').innerHTML =
+    (data.meta?.email ? `<a href="mailto:${escapeHtml(data.meta.email)}">${escapeHtml(data.meta.email)}</a><br/>` : '') +
+    (data.meta?.phone ? `${escapeHtml(data.meta.phone)}<br/>` : '') +
+    (data.meta?.location ? `${escapeHtml(data.meta.location)}` : '');
+
+  // helper to ensure flexible keys across versions
+  function getList(obj, ...keys){
+    for(const k of keys) if(obj && obj[k]) return obj[k];
+    return [];
+  }
+
+  // build pages array according to desired order
+  const pages = [];
+
+  // COVER
+  pages.push({
+    title: data.meta?.name || 'Name',
+    subtitle: data.meta?.tagline || '',
+    frontHtml: `<div class="lead">${escapeHtml(data.summary || '')}</div>
+                <div style="margin-top:12px">
+                  ${['AI','Cloud','IoT'].map(x=>`<span class="badge">${x}</span>`).join(' ')}
+                </div>`
+  });
+
+  // ABOUT (summary)
+  pages.push({
+    title: 'About',
+    subtitle: 'Summary',
+    frontHtml: `<div class="lead">${escapeHtml(data.summary || '')}</div>`
+  });
+
+  // SKILLS (data.skills is expected to be array of categories)
+  if(Array.isArray(data.skills) && data.skills.length){
+    let html = '';
+    data.skills.forEach(group => {
+      html += `<div class="section"><strong>${escapeHtml(group.category || '')}</strong>`;
+      (group.items || []).forEach(it => {
+        const level = it.level ? Number(it.level) : 60;
+        html += `<div class="skill-row"><div class="skill-name">${escapeHtml(it.name)}</div>
+                 <div class="skill-bar"><i style="width:${Math.max(4,Math.min(100,level))}%"></i></div></div>`;
+      });
+      html += `</div>`;
+    });
+    pages.push({ title: 'Skills', subtitle: 'Technical', frontHtml: html });
+  }
+
+  // EXPERIENCE (supports responsibilities or bullets)
+  if(Array.isArray(data.experience) && data.experience.length){
+    let html = '';
+    data.experience.forEach(e => {
+      const resps = getList(e, 'responsibilities', 'bullets', 'roles') || [];
+      html += `<div class="section"><strong>${escapeHtml(e.role || e.title || '')} — ${escapeHtml(e.company || '')}</strong>
+               <div class="kv">${escapeHtml(e.period || e.duration || '')}</div>
+               <div style="margin-top:8px"><ul>${(resps||[]).map(r=>`<li>${escapeHtml(r)}</li>`).join('')}</ul></div></div>`;
+    });
+    pages.push({ title: 'Experience', subtitle: 'Work & Internships', frontHtml: html });
+  }
+
+  // PROJECTS
+  if(Array.isArray(data.projects) && data.projects.length){
+    data.projects.forEach(p => {
+      // pick features/contributions/highlights (the JSON variants)
+      const features = getList(p, 'features', 'contributions', 'highlights') || [];
+      const techArr = getList(p, 'tech', 'technologies', 'tech') || [];
+      const imgs = p.images || [];
+      let imagesHtml = '';
+      if(Array.isArray(imgs) && imgs.length){
+        imagesHtml = `<div style="margin-top:10px">${imgs.map(src=>`<img src="${escapeHtml(src)}" style="max-width:100%;border-radius:8px;margin-top:6px">`).join('')}</div>`;
+      }
+      const frontHtml = `<div class="lead">${escapeHtml(p.description || '')}</div>
+                         ${(features.length ? `<ul>${features.map(f=>`<li>${escapeHtml(f)}</li>`).join('')}</ul>` : '')}
+                         ${(techArr.length ? `<div style="margin-top:8px">${techArr.map(t=>`<span class="badge">${escapeHtml(t)}</span>`).join(' ')}</div>` : '')}
+                         ${imagesHtml}`;
+      pages.push({ title: p.name || 'Project', subtitle: p.year || '', frontHtml });
+    });
+  }
+
+  // EDUCATION
+  if(Array.isArray(data.education) && data.education.length){
+    const edHtml = data.education.map(e => {
+      const meta = `${e.cgpa ? ' • CGPA: ' + escapeHtml(e.cgpa) : ''}${e.graduation ? ' • ' + escapeHtml(e.graduation) : ''}`;
+      return `<div class="section"><strong>${escapeHtml(e.degree || '')}</strong><div class="kv">${escapeHtml(e.institution || '')}${meta}</div></div>`;
+    }).join('');
+    pages.push({ title: 'Education', subtitle: 'Academic', frontHtml: edHtml });
+  }
+
+  // CERTIFICATIONS
+  if(Array.isArray(data.certifications) && data.certifications.length){
+    const certHtml = data.certifications.map(c => {
+      if(typeof c === 'string') return `<div class="section">• ${escapeHtml(c)}</div>`;
+      return `<div class="section">• ${escapeHtml(c.title || c.name || '')}${c.issuer ? ' — ' + escapeHtml(c.issuer) : ''}</div>`;
+    }).join('');
+    pages.push({ title: 'Certifications', subtitle: '', frontHtml: certHtml });
+  }
+
+  // ACHIEVEMENTS / PUBLICATIONS
+  if(Array.isArray(data.achievements_publications) && data.achievements_publications.length){
+    const achHtml = data.achievements_publications.map(a => {
+      if(typeof a === 'string') return `<div class="section">• ${escapeHtml(a)}</div>`;
+      return `<div class="section">• ${escapeHtml(a.title || a.text || '')}${a.when ? ' • ' + escapeHtml(a.when) : ''}${a.context ? ' — ' + escapeHtml(a.context) : ''}</div>`;
+    }).join('');
+    pages.push({ title: 'Achievements & Publications', subtitle: '', frontHtml: achHtml });
+  }
+
+  // CONTACT
+  pages.push({ title: 'Contact', subtitle: 'Get in touch', frontHtml: `<div class="section">Email: <a href="mailto:${escapeHtml(data.contact?.email||'')}">${escapeHtml(data.contact?.email||'')}</a></div><div class="section">Phone: ${escapeHtml(data.contact?.phone||'')}</div><div class="section">LinkedIn: <a href="${escapeHtml(data.contact?.linkedin||'')}" target="_blank">${escapeHtml(data.contact?.linkedin||'')}</a></div>` });
+
+  // Render into DOM (two faces per page, stack offset)
+  const book = document.getElementById('book');
+  book.innerHTML = '';
+  const total = pages.length;
+  for(let i=0;i<total;i++){
+    const p = pages[i];
+    const page = document.createElement('div');
+    page.className = 'page';
+    // small translateX per index to create thickness without drifting
+    const offset = i * 6; // px
+    page.dataset.offset = offset;
+    page.style.zIndex = total - i;
+    // faces
+    const faceFront = document.createElement('div');
+    faceFront.className = 'face front';
+    faceFront.innerHTML = `<div class="title">${escapeHtml(p.title)}</div>
+                           <div class="subtitle">${escapeHtml(p.subtitle||'')}</div>
+                           ${p.frontHtml || ''}`;
+    const faceBack = document.createElement('div');
+    faceBack.className = 'face back';
+    faceBack.innerHTML = `<div>${escapeHtml(p.title)}</div>`;
+    const edge = document.createElement('div'); edge.className='edge';
+    page.appendChild(faceFront);
+    page.appendChild(faceBack);
+    page.appendChild(edge);
+    // initial transform keeps offset (translateX) so pages do not drift
+    page.style.transform = `translateX(${offset}px) rotateY(0deg)`;
+    book.appendChild(page);
+  }
+
+  // state and controls
+  const pageEls = Array.from(book.querySelectorAll('.page'));
+  let index = 0;
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const counter = document.getElementById('counter');
+  const toc = document.getElementById('toc');
+
+  function renderTOC(){
+    toc.innerHTML = '';
+    pages.forEach((p,i)=>{
+      const btn = document.createElement('button');
+      btn.textContent = `${i+1}. ${p.title}`;
+      btn.onclick = ()=> goTo(i);
+      toc.appendChild(btn);
+    });
+  }
+
+  function update(){
+    pageEls.forEach((el, idx) => {
+      const off = Number(el.dataset.offset || 0);
+      if(idx < index){
+        // flipped: keep translateX so thickness preserved, rotate
+        el.style.transform = `translateX(${off}px) rotateY(-180deg)`;
+        el.classList.add('flipped');
+      } else {
+        el.style.transform = `translateX(${off}px) rotateY(0deg)`;
+        el.classList.remove('flipped');
+      }
+      el.style.zIndex = (total - idx) + (idx < index ? -1 : 0);
+    });
+    counter.textContent = `${index+1} / ${total}`;
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index >= total - 1;
+    // small visual feedback
+    book.style.transform = 'scale(0.998)';
+    setTimeout(()=> book.style.transform = 'scale(1)', 120);
+  }
+
+  function goTo(i){
+    index = Math.max(0, Math.min(total-1, i));
+    update();
+    // scroll the visible front face to top (if scrolled previously)
+    const cur = pageEls[index];
+    if(cur){
+      const front = cur.querySelector('.face.front');
+      front && front.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  prevBtn.onclick = ()=> { if(index>0) index--, update(); };
+  nextBtn.onclick = ()=> { if(index < total-1) index++, update(); };
+
+  // keyboard
+  document.addEventListener('keydown', e => {
+    if(e.key === 'ArrowRight') nextBtn.click();
+    if(e.key === 'ArrowLeft') prevBtn.click();
+  });
+
+  // swipe
+  let startX = null;
+  book.addEventListener('touchstart', e=> { startX = e.touches[0].clientX; }, {passive:true});
+  book.addEventListener('touchend', e=> {
+    if(startX === null) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    if(dx < -40) nextBtn.click();
+    if(dx > 40) prevBtn.click();
+    startX = null;
+  });
+
+  // initial render
+  renderTOC();
+  update();
+
+})(); // IIFE
+
+function escapeHtml(s){
+  if(s === null || s === undefined) return '';
+  return String(s)
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;')
+    .replaceAll('"','&quot;');
+}
+</script>
+</body>
+</html>

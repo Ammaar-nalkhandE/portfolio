@@ -1,0 +1,176 @@
+{
+  "meta": {
+    "name": "Mohammed Ammaar Nalkhande",
+    "email": "ammaar.nalkhande@gmail.com",
+    "phone": "+91-7385133768",
+    "location": "Pune, Maharashtra, India",
+    "linkedin": "https://linkedin.com/in/ammaar-nalkhande",
+    "github": "https://github.com/Ammaar-nalkhandE",
+    "tagline": "AI · Cloud · IoT — Computer Engineering (Final Year)"
+  },
+
+  "summary": "Final-year Computer Engineering student with hands-on experience in AI/ML, computer vision, IoT systems, and cloud-based deployments. Experienced in developing and integrating machine learning models, building device-to-cloud pipelines, and deploying applications using AWS and containerized environments.",
+
+  "skills": [
+    {
+      "category": "Programming & Tools",
+      "items": [
+        { "name": "Python", "level": 90 },
+        { "name": "Git", "level": 85 },
+        { "name": "Docker", "level": 75 },
+        { "name": "Bash", "level": 70 }
+      ]
+    },
+    {
+      "category": "AI / ML",
+      "items": [
+        { "name": "Computer Vision", "level": 85 },
+        { "name": "Deep Learning (PyTorch, TensorFlow)", "level": 80 },
+        { "name": "Transfer Learning", "level": 75 }
+      ]
+    },
+    {
+      "category": "Cloud / DevOps",
+      "items": [
+        { "name": "AWS (IoT Core, Lambda, S3, EC2)", "level": 80 },
+        { "name": "CloudFormation (Basic)", "level": 60 }
+      ]
+    },
+    {
+      "category": "Embedded / IoT",
+      "items": [
+        { "name": "Raspberry Pi", "level": 85 },
+        { "name": "Arduino", "level": 75 },
+        { "name": "Sensors", "level": 75 }
+      ]
+    },
+    {
+      "category": "Other",
+      "items": [
+        { "name": "REST APIs", "level": 80 },
+        { "name": "SQL", "level": 70 },
+        { "name": "ML Preprocessing", "level": 75 }
+      ]
+    }
+  ],
+
+  "experience": [
+    {
+      "role": "AI Software Development Intern",
+      "company": "EduPlusCampus (UDNAV Software Services Pvt. Ltd.)",
+      "period": "Jul 2024 – Dec 2024",
+      "summary": "Contributed to the development of an AI-based smart campus surveillance system.",
+      "responsibilities": [
+        "Worked on AI model design and computer vision tasks.",
+        "Implemented data preprocessing pipelines.",
+        "Trained and evaluated deep learning models.",
+        "Performed model optimization for inference efficiency.",
+        "Integrated model inference into the application stack.",
+        "Collaborated with backend engineers to expose inference through APIs.",
+        "Containerized the deployment workflow."
+      ],
+      "tech": ["Python", "Computer Vision", "Deep Learning", "Docker", "REST APIs"]
+    },
+    {
+      "role": "IoT Development Intern",
+      "company": "Fladdra Technologies Pvt. Ltd.",
+      "period": "Jun 2024 – Jul 2024",
+      "summary": "Worked on IoT connectivity and prototyping for battery swapping station systems.",
+      "responsibilities": [
+        "Developed device-side logic on Raspberry Pi.",
+        "Implemented telemetry APIs.",
+        "Integrated AWS services for data ingestion, monitoring, and alerting."
+      ],
+      "tech": ["Raspberry Pi", "AWS IoT Core", "Python"]
+    }
+  ],
+
+  "projects": [
+    {
+      "id": "driver-rating-system",
+      "name": "Driver Rating System (Patent Filed)",
+      "year": 2025,
+      "description": "Multi-parameter IoT and AI system for driver safety scoring using IMU data, GPS tracking, and speech-based foul language detection.",
+      "features": [
+        "IMU-based acceleration and gyroscope monitoring",
+        "Speech-based foul language detection using ML",
+        "GPS tracking",
+        "Aggregated safety score",
+        "Mobile notifications"
+      ],
+      "tech": ["Python", "Raspberry Pi", "IMU Sensors", "ML Audio Classifier", "AWS"]
+    },
+    {
+      "id": "environmental-consciousness-app",
+      "name": "Environmental Consciousness App",
+      "year": 2024,
+      "description": "Cloud-hosted application providing environmental awareness tools.",
+      "features": [
+        "Carbon footprint calculator",
+        "Oxygen footprint calculator",
+        "Seasonal planting calendar",
+        "Eco quiz",
+        "Environmental news feed"
+      ],
+      "tech": ["AWS", "REST APIs", "Data Visualization"]
+    },
+    {
+      "id": "smart-learning-ar-app",
+      "name": "Smart Learning AR App",
+      "year": 2025,
+      "description": "AR-based education platform for rural students.",
+      "features": [
+        "AI chatbot",
+        "3D model visualizations",
+        "Quizzes",
+        "Teacher and student portals",
+        "Assignment uploads",
+        "Gamified leaderboards"
+      ],
+      "tech": ["AR Framework", "AWS Backend", "NLU"]
+    }
+  ],
+
+  "education": [
+    {
+      "degree": "B.Tech. (Computer Engineering)",
+      "institution": "Vishwakarma University, Pune",
+      "cgpa": "7.6 / 10",
+      "graduation": "May 2026"
+    },
+    {
+      "degree": "HSC",
+      "institution": "Shri H B Girme Jr College",
+      "percentage": "70%",
+      "years": "2020 – 2022"
+    },
+    {
+      "degree": "SSC",
+      "institution": "New Grace English School",
+      "percentage": "84%",
+      "year": "2020"
+    }
+  ],
+
+  "certifications": [
+    "AWS Certified Cloud Practitioner",
+    "IT Fundamentals for Cybersecurity (IBM)",
+    "Fundamentals of Computer Network Security (University of Colorado)"
+  ],
+
+  "achievements_publications": [
+    "Patent (Published): IoT-based Driver Rating System (Application No. 202521001050)",
+    "1st Place – AWS IoT-Enabled Fall Detection (Visionary Hackathon ’23)",
+    "2nd Place – Smart Helmet with Cloud Analytics (Visionary TechFest ’24)",
+    "2nd Place – Doctor–Patient Sync App (Departmental Hackathon, VIIT Pune)",
+    "Research Paper (Published): A-IoT Based Smart Traffic Regulations Monitoring and Enforcement System — Springer (ICSIAIML 2025)",
+    "Research Paper (Under Review): CNN-Based Image Recognition System for Indian Cattle and Buffalo Breed Identification (IMPACT 2026)"
+  ],
+
+  "contact": {
+    "email": "ammaar.nalkhande@gmail.com",
+    "phone": "+91-7385133768",
+    "linkedin": "https://linkedin.com/in/ammaar-nalkhande",
+    "github": "https://github.com/Ammaar-nalkhandE"
+  }
+}
